@@ -1,22 +1,23 @@
 <template>
-  <div>
-    welcome
-  </div>
+	<div>
+		<h3>welcome</h3>
+	</div>
 </template>
 
 <script>
+import hub from '../utils/hub.js'
 export default {
-  name: '',
+	name: 'Welcome',
 
-  data () {
-    return {
-    }
-  },
+	data() {
+		return {}
+	},
+	created() {
+		hub.$emit('saveNavState', '')
+	},
 
-  methods: {}
+	methods: {}
 }
 </script>
 
-<style lang='less' scoped>
-
-</style>
+<style lang="less" scoped></style>

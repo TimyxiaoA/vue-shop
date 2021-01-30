@@ -47,6 +47,7 @@
 </template>
 
 <script>
+import hub from '../utils/hub.js'
 export default {
 	name: 'Home',
 
@@ -99,6 +100,12 @@ export default {
 		this.getMenulist()
 		//重新获取当前匹配的 让其刷新时仍然高亮
 		this.activePath = window.sessionStorage.getItem('activePath')
+		// 定义一个事件监听，事件监听里面做 2 件事情，改变 activePath 和 本地的 sessionStorage
+		hub.$on('saveNavState', this.saveNavState)
+	},
+	beforeDestroy(){
+		//移除事件监听,防止监听多次
+		hub.$off('saveNavState')
 	}
 }
 </script>

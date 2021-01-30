@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import { Button, Form, FormItem, Input } from 'element-ui'
 //导入 Message 提示信息
-import { Message, Container, Header, Aside, Main, Menu, Submenu, MenuItemGroup, MenuItem, Breadcrumb, BreadcrumbItem, Card, Row, Col, Table, TableColumn, Switch, Tooltip, Pagination } from 'element-ui'
+import { Message, Container, Header, Aside, Main, Menu, Submenu, MenuItemGroup, MenuItem, Breadcrumb, BreadcrumbItem, Card, Row, Col, Table, TableColumn, Switch, Tooltip, Pagination, Popover, Dialog, MessageBox } from 'element-ui'
 
 Vue.use(Button)
 Vue.use(Form)
@@ -25,6 +25,10 @@ Vue.use(TableColumn)
 Vue.use(Switch)
 Vue.use(Tooltip)
 Vue.use(Pagination)
+Vue.use(Popover)
+Vue.use(Dialog)
 
 // 全局挂载
 Vue.prototype.$Message = Message
+
+Vue.prototype.$confirm = MessageBox.confirm
