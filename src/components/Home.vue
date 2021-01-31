@@ -77,7 +77,7 @@ export default {
 		// 获取菜单列表
 		async getMenulist() {
 			const { data: res } = await this.$http.get('menus')
-			console.log(res)
+			// console.log(res)
 			if (res.meta.status !== 200) return this.$Message.error(res.meta.msg)
 			this.menulist = res.data
 			const arr = ['iconfont icon-user', 'iconfont icon-tijikongjian', 'iconfont icon-shangpin', 'iconfont icon-danju', 'iconfont icon-baobiao']
