@@ -273,6 +273,7 @@ export default {
 			this.rightsList = res.data
 			// 调用递归函数
 			this.getLeafKeys(role, this.defKeys)
+			console.log(this.defKeys)
 			// 关闭对话框
 			this.setDialogVisible = true
 		},
@@ -294,8 +295,8 @@ export default {
 
 		// 点击为角色分配角色
 		async allotRight() {
-			const arr1 = this.$refs.treeRef.getCheckedNodes()
-			const arr2 = this.$refs.treeRef.getHalfCheckedNodes()
+			const arr1 = this.$refs.treeRef.getCheckedKeys()
+			const arr2 = this.$refs.treeRef.getHalfCheckedKeys()
 			const keys = arr1.concat(arr2)
 			const keyStr = keys.join()
 			const { data: res } = await this.$http.post(`roles/${this.roleId}/rights`, { rids: keyStr })
