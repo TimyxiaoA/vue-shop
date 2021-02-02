@@ -235,7 +235,7 @@ export default {
 			}
 			// 确认删除 发送请求
 			const { data: res } = await this.$http.delete('roles/' + id)
-			console.log(res)
+			// console.log(res)
 			if (res.meta.status !== 200) this.$Message.error('删除角色失败')
 
 			// 成功则提示消息 并刷新角色列表
@@ -273,7 +273,6 @@ export default {
 			this.rightsList = res.data
 			// 调用递归函数
 			this.getLeafKeys(role, this.defKeys)
-			console.log(this.defKeys)
 			// 关闭对话框
 			this.setDialogVisible = true
 		},
