@@ -26,7 +26,7 @@
 								<el-input v-model="addForm.username"></el-input>
 							</el-form-item>
 							<el-form-item label="密码" prop="password">
-								<el-input v-model="addForm.password"></el-input>
+								<el-input v-model="addForm.password" type="password"></el-input>
 							</el-form-item>
 							<el-form-item label="邮箱" prop="email">
 								<el-input v-model="addForm.email"></el-input>
@@ -308,6 +308,11 @@ export default {
 			if (res.meta.status !== 200) return this.$Message.error(res.meta.msg)
 			// 成功则提示消息 并刷新用户列表
 			this.$Message.success(res.meta.msg)
+
+			//! 修复删除的BUG
+			if (document.querySelectorAll('.el-card tbody tr').length === 1) {
+				this.queryInfo.pagenum = this.queryInfo.pagenum > 1 ? this.queryInfo.pagenum - 1 : 1
+			}
 			this.getUserList()
 		},
 
