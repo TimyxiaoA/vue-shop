@@ -36,7 +36,7 @@
 						<el-form-item label="商品数量" prop="goods_number">
 							<el-input v-model="addForm.goods_number" type="number"></el-input>
 						</el-form-item>
-						<el-form-item label="商品分类" prop="goods_cat">
+						<el-form-item label="商品分类" prop="goods_cat1">
 							<el-cascader :options="cateList" :props="cateProps" v-model="addForm.goods_cat1" @change="handleChange"> </el-cascader>
 						</el-form-item>
 					</el-tab-pane>
@@ -64,7 +64,12 @@
 							<el-button size="small" type="primary">点击上传</el-button>
 						</el-upload>
 					</el-tab-pane>
-					<el-tab-pane label="商品内容" name="4">商品内容</el-tab-pane>
+					<el-tab-pane label="商品内容" name="4">
+						<!-- 富文本编辑器组件 -->
+						<quill-editor v-model="addForm.goods_introduce"></quill-editor>
+						<!-- 添加商品按钮 -->
+						<el-button type="primary" class="btnAdd" @click="add">添加商品</el-button>
+					</el-tab-pane>
 				</el-tabs>
 			</el-form>
 		</el-card>
@@ -90,10 +95,15 @@ export default {
 				goods_weight: 0,
 				goods_number: 0,
 				goods_cat: [],
-				goods_cat1: "this.addForm.goods_cat instanceof Array ? this.addForm.goods_cat : this.addForm.goods_cat.split(' ')",
+				goods_cat1: [],
 				// 上传图片的数组
-				pics: []
+				pics: [],
+				// 商品介绍
+				goods_introduce: '',
+				// 商品参数
+				attrs: []
 			},
+
 			addFormRules: {
 				goods_name: [{ required: true, message: '请输入商品名称', trigger: 'blur' }],
 				goods_price: [{ required: true, message: '请输入商品价格', trigger: 'blur' }],
@@ -203,6 +213,33 @@ export default {
 			//形参response就是上传成功之后服务器返回的结果
 			//将服务器返回的临时路径保存到addForm表单的pics数组中
 			this.addForm.pics.push({ pic: response.data.tmp_path })
+		},
+		//编写点击事件完成商品添加
+		add() {
+			this.$refs.addFormRef.validate(async valid => {
+				if (!valid) return this.$Message.error('请填写必要的表单项!')
+				this.addForm.goods_cat = [...this.addForm.goods_cat1]
+				console.log(this.addForm.goods_cat)
+				this.addForm.goods_cat = this.addForm.goods_cat.join(',')
+				//处理attrs数组，数组中需要包含商品的动态参数和静态属性
+				//将manyTableData（动态参数）处理添加到attrs
+				this.manyTableData.forEach(item => {
+					this.addForm.attrs.push({ attr_id: item.attr_id, attr_value: item.attr_vals.join(' ') })
+				})
+				//将onlyTableData（静态属性）处理添加到attrs
+				this.onlyTableData.forEach(item => {
+					this.addForm.attrs.push({ attr_id: item.attr_id, attr_value: item.attr_vals })
+				})
+				console.log(this.addForm)
+				//发送请求完成商品的添加,商品名称必须是唯一的
+				const { data: res } = await this.$http.post('goods', this.addForm)
+				if (res.meta.status !== 201) {
+					return this.$Message.error('添加商品失败')
+				}
+				this.$Message.success('添加商品成功')
+				//编程式导航跳转到商品列表
+				this.$router.push('/goods')
+			})
 		}
 	},
 	computed: {
@@ -223,5 +260,8 @@ export default {
 .previewImg {
 	width: 100%;
 	max-height: 600px;
+}
+.btnAdd {
+	margin-top: 15px;
 }
 </style>
