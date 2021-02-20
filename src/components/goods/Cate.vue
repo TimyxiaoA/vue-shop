@@ -230,8 +230,8 @@ export default {
 			this.$refs.addCateRef.validate(async valid => {
 				if (!valid) return false
 				const { data: res } = await this.$http.post('categories', this.addCateForm)
-				if (res.meta.status !== 201) return this.$Message.error('添加分类失败')
-				this.$Message.success('添加分类成功')
+				if (res.meta.status !== 201) return this.$message.error('添加分类失败')
+				this.$message.success('添加分类成功')
 				this.getCateList()
 				this.addCateDialogVisible = false
 			})
@@ -247,7 +247,7 @@ export default {
 		// 显示编辑修改对话框
 		async showEditCateDialog(id) {
 			const { data: res } = await this.$http.get(`categories/${id}`)
-			if (res.meta.status !== 200) return this.$Message.error('获取分类失败')
+			if (res.meta.status !== 200) return this.$message.error('获取分类失败')
 			this.editCateForm = res.data
 			this.editCateDialogVisible = true
 		},
@@ -258,8 +258,8 @@ export default {
 		// 点击确认修改分类
 		async editCate() {
 			const { data: res } = await this.$http.put(`categories/${this.editCateForm.cat_id}`, { cat_name: this.editCateForm.cat_name })
-			if (res.meta.status !== 200) return this.$Message.error('修改分类失败')
-			this.$Message.success('修改分类成功')
+			if (res.meta.status !== 200) return this.$message.error('修改分类失败')
+			this.$message.success('修改分类成功')
 			this.getCateList()
 			this.editCateDialogVisible = false
 		},
@@ -273,12 +273,12 @@ export default {
 			}).catch(err => err)
 			// 如果用户确认删除, 则返回字符串 confirm 取消则返回 cancel
 			if (confirmRes !== 'confirm') {
-				return this.$Message.info('已取消删除')
+				return this.$message.info('已取消删除')
 			}
 			// 确认删除 发送请求
 			const { data: res } = await this.$http.delete(`categories/${id}`)
-			if (res.meta.status !== 200) return this.$Message.error('删除分类失败')
-			this.$Message.success('删除分类成功')
+			if (res.meta.status !== 200) return this.$message.error('删除分类失败')
+			this.$message.success('删除分类成功')
 			this.getCateList()
 		}
 	}

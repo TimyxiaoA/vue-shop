@@ -14,7 +14,7 @@
 			</el-row>
 
 			<!-- 角色列表区域 -->
-			<el-table :data="roleList" border stripe>
+			<el-table :data="roleList" row-key="id" border stripe>
 				<!-- 展开行 -->
 				<el-table-column type="expand">
 					<template slot-scope="scope">
@@ -167,7 +167,7 @@ export default {
 	methods: {
 		async getRoleList() {
 			const { data: res } = await this.$http.get('roles')
-			if (res.meta.status !== 200) return this.$Message.error(res.meta.msg)
+			if (res.meta.status !== 200) return this.$message.error(res.meta.msg)
 			// 成功就取值并赋值
 			this.roleList = res.data
 		},
@@ -180,11 +180,11 @@ export default {
 		addRole() {
 			//调用 validate 进行表单验证
 			this.$refs.addFormRef.validate(async valid => {
-				if (!valid) return this.$Message.error('请填写完整角色信息')
+				if (!valid) return this.$message.error('请填写完整角色信息')
 				const { data: res } = await this.$http.post('roles', this.addForm)
-				if (res.meta.status !== 201) return this.$Message.error(res.meta.msg)
+				if (res.meta.status !== 201) return this.$message.error(res.meta.msg)
 				// 添加成功
-				this.$Message.success(res.meta.msg)
+				this.$message.success(res.meta.msg)
 				// 关闭对话框
 				this.addDialogVisible = false
 				//  刷新角色列表
@@ -200,7 +200,7 @@ export default {
 		async showEditDialog(id) {
 			// console.log(id)
 			const { data: res } = await this.$http.get('roles/' + id)
-			if (res.meta.status !== 200) return this.$Message.error(res.meta.msg)
+			if (res.meta.status !== 200) return this.$message.error(res.meta.msg)
 			// 将角色的信息赋值给 editForm
 			this.editForm = res.data
 			// 打开弹出层
@@ -212,8 +212,8 @@ export default {
 				roleName: this.editForm.roleName,
 				roleDesc: this.editForm.roleDesc
 			})
-			if (res.meta.status !== 200) return this.$Message.error('修改角色信息失败')
-			this.$Message.success('修改角色信息成功')
+			if (res.meta.status !== 200) return this.$message.error('修改角色信息失败')
+			this.$message.success('修改角色信息成功')
 			// 刷新角色列表
 			this.getRoleList()
 			// 关闭对话框
@@ -231,15 +231,15 @@ export default {
 			}).catch(err => err)
 			// 如果用户确认删除, 则返回字符串 confirm 取消则返回 cancel
 			if (confirmRes !== 'confirm') {
-				return this.$Message.info('已取消删除')
+				return this.$message.info('已取消删除')
 			}
 			// 确认删除 发送请求
 			const { data: res } = await this.$http.delete('roles/' + id)
 			// console.log(res)
-			if (res.meta.status !== 200) this.$Message.error('删除角色失败')
+			if (res.meta.status !== 200) this.$message.error('删除角色失败')
 
 			// 成功则提示消息 并刷新角色列表
-			this.$Message.success('删除角色成功')
+			this.$message.success('删除角色成功')
 			this.getRoleList()
 		},
 
@@ -253,11 +253,11 @@ export default {
 			}).catch(err => err)
 			// 如果用户确认删除, 则返回字符串 confirm 取消则返回 cancel
 			if (confirmRes !== 'confirm') {
-				return this.$Message.info('已取消删除')
+				return this.$message.info('已取消删除')
 			}
 			// 确认删除 发送请求 需要roleId rightId
 			const { data: res } = await this.$http.delete(`roles/${role.id}/rights/${rightId}`)
-			if (res.meta.status !== 200) this.$Message.error('删除权限失败')
+			if (res.meta.status !== 200) this.$message.error('删除权限失败')
 			//成功则 刷新数据
 			// this.getRoleList() //! 这样会刷新页面 导致折叠收起来
 			role.children = res.data //!函数引用修改数据也可更改页面数据中的内容
@@ -268,7 +268,7 @@ export default {
 			// 存储角色id 待后续调用分配权限接口使用
 			this.roleId = role.id
 			const { data: res } = await this.$http.get('rights/tree')
-			if (res.meta.status !== 200) return this.$Message.error('获取权限树形列表失败')
+			if (res.meta.status !== 200) return this.$message.error('获取权限树形列表失败')
 			// 获取数据并赋值
 			this.rightsList = res.data
 			// 调用递归函数
@@ -299,9 +299,9 @@ export default {
 			const keys = arr1.concat(arr2)
 			const keyStr = keys.join()
 			const { data: res } = await this.$http.post(`roles/${this.roleId}/rights`, { rids: keyStr })
-			if (res.meta.status !== 200) return this.$Message.error('分配权限失败')
+			if (res.meta.status !== 200) return this.$message.error('分配权限失败')
 			// 提示信息
-			this.$Message.success('分配权限成功')
+			this.$message.success('分配权限成功')
 			// 刷新数据
 			this.getRoleList()
 			// 关闭对话框

@@ -63,8 +63,8 @@ export default {
 				if (!valid) return
 				//发送请求
 				const { data: res } = await this.$http.post('login', this.loginForm)
-				if (res.meta.status != 200) return this.$Message.error('登陆失败!')
-				this.$Message.success('登陆成功!')
+				if (res.meta.status != 200) return this.$message.error('登陆失败!')
+				this.$message.success('登陆成功!')
 				//保存 token
 				window.sessionStorage.setItem('token', res.data.token)
 				//导航至 /home

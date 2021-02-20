@@ -43,6 +43,6 @@ Vue.use(Upload)
 Vue.use(Timeline)
 Vue.use(TimelineItem)
 // 全局挂载
-Vue.prototype.$Message = Message
+Vue.prototype.$message = Message
 
 Vue.prototype.$confirm = MessageBox.confirm

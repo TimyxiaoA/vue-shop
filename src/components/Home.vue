@@ -78,7 +78,7 @@ export default {
 		async getMenulist() {
 			const { data: res } = await this.$http.get('menus')
 			// console.log(res)
-			if (res.meta.status !== 200) return this.$Message.error(res.meta.msg)
+			if (res.meta.status !== 200) return this.$message.error(res.meta.msg)
 			this.menulist = res.data
 			const arr = ['iconfont icon-user', 'iconfont icon-tijikongjian', 'iconfont icon-shangpin', 'iconfont icon-danju', 'iconfont icon-baobiao']
 			res.data.forEach((item, index) => {
@@ -103,7 +103,7 @@ export default {
 		// 定义一个事件监听，事件监听里面做 2 件事情，改变 activePath 和 本地的 sessionStorage
 		hub.$on('saveNavState', this.saveNavState)
 	},
-	beforeDestroy(){
+	beforeDestroy() {
 		//移除事件监听,防止监听多次
 		hub.$off('saveNavState')
 	}
@@ -146,6 +146,7 @@ export default {
 	background-color: #4a5064;
 	font-size: 10px;
 	line-height: 24px;
+	color: #fff;
 	text-align: center;
 	letter-spacing: 0.2em;
 	cursor: pointer;

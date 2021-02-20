@@ -56,7 +56,7 @@
 					<!-- 表格区域 -->
 					<el-table :data="onlyTableData" border stripe>
 						<!-- 展开项 -->
-							<el-table-column type="expand">
+						<el-table-column type="expand">
 							<template slot-scope="scope">
 								<!-- 循环渲染Tag标签 -->
 								<el-tag v-for="(item, index) in scope.row.attr_vals" :key="index" closable @close="handleClose(index, scope.row)">{{ item }}</el-tag>
@@ -152,7 +152,7 @@ export default {
 		// *获取所有商品列表
 		async getCateList() {
 			const { data: res } = await this.$http.get('categories')
-			if (res.meta.status !== 200) return this.$Message.error('获取商品列表数据失败')
+			if (res.meta.status !== 200) return this.$message.error('获取商品列表数据失败')
 			this.cateList = res.data
 		},
 		// 级联选择框选中项变化触发事件
@@ -171,7 +171,7 @@ export default {
 				this.selectedCateKeys = [] // 让他选不上 并将表格内容清空
 				this.manyTableData = []
 				this.onlyTableData = []
-				return this.$Message.error('只允许为三级分类设置参数!')
+				return this.$message.error('只允许为三级分类设置参数!')
 			}
 			// 如果是三级分类,则根据所选分类的 ID，和当前所处的面板，获取对应的参数
 			const { data: res } = await this.$http.get(`categories/${this.cateId}/attributes`, {
@@ -180,7 +180,7 @@ export default {
 				}
 			})
 			if (res.meta.status !== 200) {
-				return this.$Message.error('获取参数列表失败')
+				return this.$message.error('获取参数列表失败')
 			}
 			// !对 res.data 中的 attr_vals 进行加工
 			res.data.forEach(item => {
@@ -210,9 +210,9 @@ export default {
 				attr_name: this.addForm.attr_name,
 				attr_sel: this.activeName
 			})
-			if (res.meta.status !== 201) return this.$Message.error('添加参数失败')
+			if (res.meta.status !== 201) return this.$message.error('添加参数失败')
 
-			this.$Message.success('添加参数成功')
+			this.$message.success('添加参数成功')
 			this.getParamsData()
 			this.addDialogVisible = false
 		},
@@ -224,7 +224,7 @@ export default {
 					attr_sel: this.activeName
 				}
 			})
-			if (res.meta.status !== 200) return this.$Message.error('获取参数失败')
+			if (res.meta.status !== 200) return this.$message.error('获取参数失败')
 			// console.log(res)
 			this.editForm = res.data
 			this.editDialogVisible = true
@@ -244,8 +244,8 @@ export default {
 					attr_vals: this.editForm.attr_vals //!把之前的带上,防止把之前的清空
 				})
 				console.log(res)
-				if (res.meta.status !== 200) return this.$Message.error('修改参数失败')
-				this.$Message.success('修改参数成功')
+				if (res.meta.status !== 200) return this.$message.error('修改参数失败')
+				this.$message.success('修改参数成功')
 				this.getParamsData()
 				this.editDialogVisible = false
 			})
@@ -261,12 +261,12 @@ export default {
 			}).catch(err => err)
 			// 如果用户确认删除, 则返回字符串 confirm 取消则返回 cancel
 			if (confirmRes !== 'confirm') {
-				return this.$Message.info('已取消删除')
+				return this.$message.info('已取消删除')
 			}
 			// 确认删除 发送请求
 			const { data: res } = await this.$http.delete(`categories/${this.cateId}/attributes/${attrId}`)
-			if (res.meta.status !== 200) return this.$Message.error('删除参数失败')
-			this.$Message.success('删除参数成功')
+			if (res.meta.status !== 200) return this.$message.error('删除参数失败')
+			this.$message.success('删除参数成功')
 			this.getParamsData()
 		},
 
@@ -294,8 +294,8 @@ export default {
 				attr_sel: row.attr_sel,
 				attr_vals: row.attr_vals.join(' ')
 			})
-			if (res.meta.status !== 200) return this.$Message.error('修改参数失败')
-			this.$Message.success('修改参数成功')
+			if (res.meta.status !== 200) return this.$message.error('修改参数失败')
+			this.$message.success('修改参数成功')
 		},
 		// 点击按钮显示输入文本框
 		showInput(row) {

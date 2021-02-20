@@ -145,7 +145,7 @@ export default {
 			const { data: res } = await this.$http.get('categories')
 
 			if (res.meta.status !== 200) {
-				return this.$Message.error('获取商品分类数据失败')
+				return this.$message.error('获取商品分类数据失败')
 			}
 			this.cateList = res.data
 		},
@@ -159,7 +159,7 @@ export default {
 			// console.log('即将离开的标签页', oldActiveName)
 			// console.log('即将进入的标签页', activeName)
 			if (oldActiveName === '0' && this.addForm.goods_cat1.length !== 3) {
-				this.$Message.error('请选择商品分类')
+				this.$message.error('请选择商品分类')
 				return false
 			}
 		},
@@ -170,7 +170,7 @@ export default {
 				const { data: res } = await this.$http.get(`categories/${this.cateId}/attributes`, { params: { sel: 'many' } })
 
 				if (res.meta.status !== 200) {
-					return this.$Message.error('获取动态参数列表失败')
+					return this.$message.error('获取动态参数列表失败')
 				}
 				//将attr_vals字符串转换为数组
 				res.data.forEach(item => {
@@ -182,7 +182,7 @@ export default {
 				const { data: res } = await this.$http.get(`categories/${this.cateId}/attributes`, { params: { sel: 'only' } })
 				console.log(res.data)
 				if (res.meta.status !== 200) {
-					return this.$Message.error('获取静态属性列表失败')
+					return this.$message.error('获取静态属性列表失败')
 				}
 				this.onlyTableData = res.data
 			}
@@ -217,7 +217,7 @@ export default {
 		//编写点击事件完成商品添加
 		add() {
 			this.$refs.addFormRef.validate(async valid => {
-				if (!valid) return this.$Message.error('请填写必要的表单项!')
+				if (!valid) return this.$message.error('请填写必要的表单项!')
 				this.addForm.goods_cat = [...this.addForm.goods_cat1]
 				console.log(this.addForm.goods_cat)
 				this.addForm.goods_cat = this.addForm.goods_cat.join(',')
@@ -234,9 +234,9 @@ export default {
 				//发送请求完成商品的添加,商品名称必须是唯一的
 				const { data: res } = await this.$http.post('goods', this.addForm)
 				if (res.meta.status !== 201) {
-					return this.$Message.error('添加商品失败')
+					return this.$message.error('添加商品失败')
 				}
-				this.$Message.success('添加商品成功')
+				this.$message.success('添加商品成功')
 				//编程式导航跳转到商品列表
 				this.$router.push('/goods')
 			})

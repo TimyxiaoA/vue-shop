@@ -92,12 +92,12 @@ export default {
 			}).catch(err => err)
 			// 如果用户确认删除, 则返回字符串 confirm 取消则返回 cancel
 			if (confirmRes !== 'confirm') {
-				return this.$Message.info('已取消删除')
+				return this.$message.info('已取消删除')
 			}
 			// 确认删除 发送请求
 			const { data: res } = await this.$http.delete(`goods/${id}`)
-			if (res.meta.status !== 200) return this.$Message.error('删除商品失败')
-			this.$Message.success('删除商品成功')
+			if (res.meta.status !== 200) return this.$message.error('删除商品失败')
+			this.$message.success('删除商品成功')
 			this.getGoodsList()
     },
     // 添加跳转到添加页面

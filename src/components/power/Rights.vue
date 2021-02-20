@@ -39,7 +39,7 @@ export default {
 	methods: {
 		async getRightsList() {
 			const { data: res } = await this.$http.get('rights/list')
-			if (res.meta.status !== 200) return this.$Message.error(res.meta.msg)
+			if (res.meta.status !== 200) return this.$message.error(res.meta.msg)
 			//获取数据并赋值
 			this.rightsList = res.data
 		}

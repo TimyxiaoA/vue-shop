@@ -209,7 +209,7 @@ export default {
 		async getUserList() {
 			const { data: res } = await this.$http.get('users', { params: this.queryInfo })
 			// console.log(res)
-			if (res.meta.status !== 200) return this.$Message.error(res.meta.msg)
+			if (res.meta.status !== 200) return this.$message.error(res.meta.msg)
 			this.userList = res.data.users
 			this.total = res.data.total
 		},
@@ -234,9 +234,9 @@ export default {
 			//设置状态失败 将当前开关返回初始状态
 			if (res.meta.status !== 200) {
 				userinfo.mg_state = !userinfo.mg_state
-				return this.$Message.error(res.meta.msg)
+				return this.$message.error(res.meta.msg)
 			}
-			this.$Message.success(res.meta.msg)
+			this.$message.success(res.meta.msg)
 		},
 		//监听对话框关闭事件
 		addDialogClosed() {
@@ -246,11 +246,11 @@ export default {
 		addUser() {
 			//调用validate进行表单验证
 			this.$refs.addFormRef.validate(async valid => {
-				if (!valid) return this.$Message.error('请填写完整用户信息!')
+				if (!valid) return this.$message.error('请填写完整用户信息!')
 				//发送请求添加用户
 				const { data: res } = await this.$http.post('users', this.addForm)
-				if (res.meta.status !== 201) return this.$Message.error(res.meta.msg)
-				this.$Message.success(res.meta.msg)
+				if (res.meta.status !== 201) return this.$message.error(res.meta.msg)
+				this.$message.success(res.meta.msg)
 				//关闭对话框
 				this.dialogFormVisible = false
 				//重新获取用户列表
@@ -262,7 +262,7 @@ export default {
 		async showEditDialog(id) {
 			console.log(id)
 			const { data: res } = await this.$http.get('users/' + id)
-			if (res.meta.status !== 200) return this.$Message.error(res.meta.msg)
+			if (res.meta.status !== 200) return this.$message.error(res.meta.msg)
 			// 将获取数据赋值给表单
 			this.editForm = res.data
 			// 打开弹出层
@@ -281,13 +281,13 @@ export default {
 					email: this.editForm.email,
 					mobile: this.editForm.mobile
 				})
-				if (res.meta.status !== 200) return this.$Message.error(res.meta.msg)
+				if (res.meta.status !== 200) return this.$message.error(res.meta.msg)
 				//关闭弹出层
 				this.editDialogVisible = false
 				// 刷新数据
 				this.getUserList()
 				// 提示信息
-				this.$Message.success(res.meta.msg)
+				this.$message.success(res.meta.msg)
 			})
 		},
 
@@ -301,13 +301,13 @@ export default {
 			}).catch(err => err)
 			// 如果用户确认删除, 则返回字符串 confirm 取消则返回 cancel
 			if (confirmRes !== 'confirm') {
-				return this.$Message.info('已取消删除')
+				return this.$message.info('已取消删除')
 			}
 			// 确认删除 发送请求
 			const { data: res } = await this.$http.delete('users/' + id)
-			if (res.meta.status !== 200) return this.$Message.error(res.meta.msg)
+			if (res.meta.status !== 200) return this.$message.error(res.meta.msg)
 			// 成功则提示消息 并刷新用户列表
-			this.$Message.success(res.meta.msg)
+			this.$message.success(res.meta.msg)
 
 			//! 修复删除的BUG
 			if (document.querySelectorAll('.el-card tbody tr').length === 1) {
@@ -321,7 +321,7 @@ export default {
 			this.userInfo = userInfo
 			// 展示对话框之前,获取所有的角色列表
 			const { data: res } = await this.$http.get('roles')
-			if (res.meta.status !== 200) return this.$Message.error('获取角色列表失败')
+			if (res.meta.status !== 200) return this.$message.error('获取角色列表失败')
 			this.rolesList = res.data
 			// console.log(this.rolesList)
 			this.setRoleDialogVisible = true
@@ -331,13 +331,13 @@ export default {
 		async saveRoleInfo() {
 			if (!this.selectedRoleId) {
 				// 没有选中角色
-				return this.$Message.error('请选择要分配的角色')
+				return this.$message.error('请选择要分配的角色')
 			}
 			const { data: res } = await this.$http.put(`users/${this.userInfo.id}/role`, {
 				rid: this.selectedRoleId
 			})
-			if (res.meta.status !== 200) return this.$Message.error('更新用户角色失败')
-			this.$Message.success('更新用户角色成功')
+			if (res.meta.status !== 200) return this.$message.error('更新用户角色失败')
+			this.$message.success('更新用户角色成功')
 			// 更新用户信息列表
 			this.getUserList()
 			this.setRoleDialogVisible = false
